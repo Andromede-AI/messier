@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  pull_request:
+    branches: [main]
+    types: [closed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || (github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/v'))
+    name: Publish release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Install uv
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+      - name: Read release tag
+        id: release
+        run: |
+          VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' pyproject.toml)"
+          echo "tag=v$VERSION" >> "$GITHUB_OUTPUT"
+      - name: Publish Hugging Face candidate
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: uv run --with python-dotenv python -m messier.publishing promote "${{ steps.release.outputs.tag }}"
+      - name: Create GitHub tag
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            test "$(git rev-list -n 1 "$TAG")" = "$GITHUB_SHA"
+          else
+            git tag -a "$TAG" -m "MESSIER $TAG" "$GITHUB_SHA"
+            git push origin "$TAG"
+          fi
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" --verify-tag --title "MESSIER $TAG" --notes-file docs/release_notes.md --generate-notes
+          fi

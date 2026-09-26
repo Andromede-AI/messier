@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Messier is a high-resolution corpus for cross-benchmark agent evaluation.">
+  <meta name="keywords" content="Messier, AI agents, benchmarks, evaluation, verifiers">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messier: A High-Resolution Corpus for Cross-Benchmark Agent Evaluation</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/app-icon.svg" type="image/svg+xml">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script defer src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script defer src="./static/js/plots.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" href="https://github.com/Andromede-AI">
+        <span class="icon"><i class="fas fa-home"></i></span>
+      </a>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">Resources</a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://huggingface.co/datasets/Andromede-AI/messier">Dataset</a>
+          <a class="navbar-item" href="https://github.com/Andromede-AI/messier/blob/main/docs/data.md">Documentation</a>
+          <a class="navbar-item" href="https://github.com/Andromede-AI/messier">Repository</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Messier: A High-Resolution Corpus for Cross-Benchmark Agent Evaluation</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><a href="https://www.linkedin.com/in/stefan-krsteski">Stefan Krsteski</a>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/charlotte-l-meyer">Charlotte Meyer</a>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/guillaume-allegre">Guillaume Allegre</a>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/tony-o-halloran-38098a142">Tony O'Halloran</a>,</span>
+            <span class="author-block"><a href="https://www.linkedin.com/in/alexandre-sallinen">Alexandre Sallinen</a></span>
+          </div>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Andromede AI</span>
+          </div>
+          <a class="is-size-5 publication-venue" href="https://2026.emnlp.org/">
+            <img class="venue-logo" src="./static/images/acl-logo.svg" alt="">
+            <span>EMNLP 2026</span>
+          </a>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2607.25891" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2607.25891" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/Andromede-AI/messier" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fab fa-github"></i></span>
+                  <span>Code</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://huggingface.co/datasets/Andromede-AI/messier" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon" aria-hidden="true">🤗</span>
+                  <span>Data</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://github.com/Andromede-AI/messier/blob/main/docs/data.md" class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon"><i class="fas fa-book"></i></span>
+                  <span>Docs</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section abstract-section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified abstract-copy">
+          <p>Comprehensively evaluating LLM-based AI agents across interactive environments is difficult because tasks, scaffolds, verifiers, and scoring rules are fragmented across sources. Existing efforts to unify these evaluations remain limited in scale and domain, making costly reruns necessary and leaving available results difficult to compare.</p>
+          <p>We introduce <span class="messier">Messier</span>, a corpus that combines public evaluation results with new runs on underrepresented professional and scientific benchmarks. It brings these heterogeneous sources into a common data model while retaining the context needed to interpret each result in greater depth.</p>
+          <p>The current release spans 31 benchmarks, including <a href="https://www.swebench.com/">SWE-bench</a>, <a href="https://gorilla.cs.berkeley.edu/leaderboard.html">BFCL</a>, <a href="https://os-world.github.io/">OSWorld</a>, <a href="https://github.com/sierra-research/tau2-bench">τ²-bench</a>, <a href="https://github.com/harveyai/harvey-labs">HarveyAI-Lab</a>, and <a href="https://toolathlon.xyz/">Toolathlon</a>. Its 725 agents include recent models such as <a href="https://openai.com/index/introducing-gpt-5-5/">GPT-5.5</a>, <a href="https://www.anthropic.com/news/claude-opus-4-7">Claude Opus 4.7</a>, <a href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-1-pro/">Gemini 3.1 Pro</a>, and <a href="https://api-docs.deepseek.com/news/news260813/">DeepSeek V4 Pro</a>, together with scaffolds such as <a href="https://github.com/All-Hands-AI/OpenHands">OpenHands</a>, <a href="https://code.claude.com/docs">Claude Code</a>, and <a href="https://github.com/harbor-framework/terminal-bench-2">Terminus</a>. Across 11,999 tasks, <span class="messier">Messier</span> describes 72,000 verifiers by type, including LLM judges, scripts, exact-match checks, and human labels. We also record whether each verifier checks the final output or environment state or examines intermediate interactions. The corpus includes 118,089 trajectories from 15 benchmarks, including <a href="https://matharena.ai/">MathArena</a>, <a href="https://github.com/harbor-framework/terminal-bench-2">TerminalBench</a>, <a href="https://github.com/sierra-research/tau2-bench">τ²-bench</a>, <a href="https://toolathlon.xyz/">Toolathlon</a>, <a href="https://huggingface.co/datasets/ScaleAI/SWE-bench_Pro">SWE-bench Pro</a>, and the six benchmarks evaluated through <a href="https://harborframework.com/">Harbor</a>.</p>
+          <p>Using this corpus, we find that frontier progress is uneven across benchmark groups and show that scoring rules can change measured performance and agent rankings. We further derive open-data capability scores that correspond closely to <a href="https://epoch.ai/data/eci-documentation">Epoch's Evaluation Capability Index (ECI)</a>. Researchers can readily extend these scores to estimate performance across custom subsets, such as specific domains, occupations, action spaces, or verifiers.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section evaluation-section">
+  <div class="container is-max-widescreen">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <figure class="research-figure">
+          <img class="evaluation-flow" src="./static/images/evaluation-flow.svg" alt="One of several models and environments is shown. A model and scaffold form an agent. The agent completes repeated trials of a task, each evaluated by one or more verifiers whose outputs form a trial result.">
+          <figcaption class="figure-caption evaluation-caption"><span class="figure-caption-title">Fig. 1. Benchmark evaluation flow.</span> An environment supports one or more tasks, each associated with one or more verifiers. A model and scaffold form an agent, which may execute the same task over repeated trials. The verifiers evaluate each trial, and the scoring rule combines their outputs into one trial result. Benchmarks usually report only the final result. Meaningful comparison also requires the individual verifier results and the rule used to combine them, so researchers can identify what contributes to success or failure more precisely.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small results-section">
+  <div class="hero-body">
+    <div class="container is-max-widescreen">
+      <h2 class="title is-3 has-text-centered result-group-title">Corpus composition</h2>
+      <figure class="research-figure">
+        <div class="composition-grid">
+          <article class="composition-panel">
+            <h3>Benchmarks by group</h3>
+            <div class="interactive-plot composition-plot" id="plot-composition-benchmarks" role="img" aria-label="Number of benchmarks in each benchmark group."></div>
+          </article>
+          <article class="composition-panel">
+            <h3>Tasks by group</h3>
+            <div class="interactive-plot composition-plot" id="plot-composition-tasks" role="img" aria-label="Number of tasks in each benchmark group."></div>
+          </article>
+          <article class="composition-panel">
+            <h3>Models, scaffolds, and agents</h3>
+            <div class="interactive-plot composition-plot" id="plot-composition-identities" role="img" aria-label="Number of models, scaffolds, and agents."></div>
+          </article>
+          <article class="composition-panel">
+            <h3>Scoring rules</h3>
+            <div class="interactive-plot composition-plot" id="plot-composition-scoring" role="img" aria-label="Number of tasks using each scoring rule."></div>
+          </article>
+          <article class="composition-panel">
+            <h3>Verifier types</h3>
+            <div class="interactive-plot composition-plot" id="plot-composition-verifiers" role="img" aria-label="Number of represented verifiers of each type."></div>
+          </article>
+        </div>
+        <div class="frontier-grid">
+          <article class="composition-panel frontier-panel">
+            <h3>Frontier by model release quarter</h3>
+            <div class="interactive-plot frontier-plot" id="plot-composition-frontier" role="img" aria-label="Frontier result by benchmark group and model release quarter."></div>
+          </article>
+          <article class="composition-panel frontier-change-panel">
+            <h3>First and latest observed frontier</h3>
+            <div class="interactive-plot frontier-plot" id="plot-composition-frontier-change" role="img" aria-label="First and latest frontier result for each benchmark group."></div>
+          </article>
+        </div>
+        <figcaption class="figure-caption"><span class="figure-caption-title">Fig. 2. Corpus composition and frontier analysis.</span> MESSIER records how agents are formed, what actions and state each environment exposes, and how verifiers and scoring rules produce results. Because a task may provide more than one action type or verifier, we can examine these choices across the corpus. The five benchmark groups are qualitative and may overlap. For example, an enterprise task may also involve function calling. GUI evaluations remain notably underrepresented. The lower panels use model release dates to trace the observed frontier over time. For each quarter, the frontier averages the best result observed on each task among agents whose models had been released by then. Vertical bars show one standard error across the benchmarks in each group.</figcaption>
+      </figure>
+      <h2 class="title is-3 has-text-centered result-group-title irt-title">Item Response Theory</h2>
+      <div class="irt-copy">
+        <p>Item Response Theory (IRT) is a family of mathematical models used to design, analyze, and score tests, surveys, and other psychological or educational assessments. It models the probability of an observed response as a function of latent characteristics of the respondent and the item. In our setting, respondents are models, items are tasks, and each response records whether a model completed a task successfully. The 1PL model places model ability θ and task difficulty β on a shared scale, with success becoming more likely as ability exceeds difficulty. We estimate both from the observed results across overlapping tasks.</p>
+        <p>By placing all tasks on one shared scale, the analysis allows us to compare difficulty across otherwise different domains, such as mathematics and enterprise workflows. This comparison depends on the strong assumption that the same scale meaningfully represents difficulty across those domains. Separate, multidimensional, or hierarchical scales may better represent differences between occupations, industries, model families, and scaffolds. Additionally, the strength of these comparisons depends on coverage. The data include 250,048 of 1,674,845 possible model-task observations, or 14.9%. Because IRT connects models and tasks through observed results, comparisons are better supported when models are evaluated on overlapping sets of tasks. The matrix below shows the number of models represented in each benchmark group and shared between groups. We therefore welcome new benchmarks, models, and runs that expand the corpus and connect evaluations that currently have little overlap.</p>
+      </div>
+      <div class="research-figure">
+        <div class="irt-plots-grid">
+          <figure class="irt-plot-panel">
+            <h3 class="irt-figure-title irt-overlap-title">Model coverage and overlap by group</h3>
+            <div class="interactive-plot irt-square-plot" id="plot-irt-coverage" role="img" aria-label="Number of models evaluated in each pair of benchmark groups."></div>
+            <figcaption class="result-stat irt-stat"><span class="figure-caption-title">Fig. 3a. Model coverage and overlap.</span> <span id="stat-irt-coverage"></span></figcaption>
+          </figure>
+          <figure class="irt-plot-panel">
+            <h3 class="irt-figure-title">Distributions of model ability and task difficulty</h3>
+            <div class="interactive-plot irt-square-plot" id="plot-irt-distributions" role="img" aria-label="Distributions of fitted model ability and task difficulty."></div>
+            <figcaption class="result-stat irt-stat"><span class="figure-caption-title">Fig. 3b. Ability and difficulty distributions.</span> <span id="stat-irt"></span></figcaption>
+          </figure>
+        </div>
+      </div>
+      <h2 class="title is-3 has-text-centered result-group-title comparison-title">Comparison with Epoch ECI</h2>
+      <p class="result-note">The panels below compare <span class="messier">Messier</span> ability estimates with <a href="https://epoch.ai/data/eci-documentation">Epoch's published general, coding, and mathematics ECI scores</a>. To do so, we match models across the two sources and compute Spearman rank correlation, using the full-corpus fit for general ability and re-estimating model ability on tasks classified under SOC 15-1200 and SOC 15-2000 for coding and mathematics, respectively, while holding task difficulty fixed at its original value.</p>
+      <figure class="research-figure">
+        <div class="results-grid">
+          <article class="result-card">
+            <h3>General</h3>
+            <p class="result-stat" id="stat-eci-general"></p>
+            <div class="interactive-plot" id="plot-eci-general" role="img" aria-label="Messier model ability compared with Epoch ECI on general evaluations."></div>
+          </article>
+          <article class="result-card">
+            <h3>Coding</h3>
+            <p class="result-stat" id="stat-eci-coding"></p>
+            <div class="interactive-plot" id="plot-eci-coding" role="img" aria-label="Messier model ability compared with Epoch SWE-ECI."></div>
+          </article>
+          <article class="result-card">
+            <h3>Mathematics</h3>
+            <p class="result-stat" id="stat-eci-math"></p>
+            <div class="interactive-plot" id="plot-eci-math" role="img" aria-label="Messier model ability compared with Epoch Math-ECI."></div>
+          </article>
+        </div>
+        <figcaption class="figure-caption"><span class="figure-caption-title">Fig. 4. Comparison with Epoch ECI.</span> Each panel compares <span class="messier">Messier</span> model ability with the corresponding Epoch ECI score for models represented in both sources.</figcaption>
+      </figure>
+      <h2 class="title is-3 has-text-centered result-group-title industry-title">Ability by industry</h2>
+      <p class="result-note">We repeat this methodology using NAICS classifications for the three industries with the broadest coverage across benchmark groups. For each industry, we re-estimate model ability with the IRT task-difficulty parameters β fixed at their original fit values. The panels compare these estimates with overall ability and include models evaluated on at least 10 tasks from at least two benchmark groups in that industry.</p>
+      <figure class="research-figure">
+        <div class="results-grid">
+          <article class="result-card">
+            <h3>Professional, Scientific, and Technical Services</h3>
+            <p class="result-stat" id="stat-industry-professional"></p>
+            <div class="interactive-plot" id="plot-industry-professional" role="img" aria-label="Overall model ability compared with model ability on professional, scientific, and technical services tasks."></div>
+          </article>
+          <article class="result-card">
+            <h3>Health Care and Social Assistance</h3>
+            <p class="result-stat" id="stat-industry-healthcare"></p>
+            <div class="interactive-plot" id="plot-industry-healthcare" role="img" aria-label="Overall model ability compared with model ability on health care and social assistance tasks."></div>
+          </article>
+          <article class="result-card">
+            <h3>Finance and Insurance</h3>
+            <p class="result-stat" id="stat-industry-finance"></p>
+            <div class="interactive-plot" id="plot-industry-finance" role="img" aria-label="Overall model ability compared with model ability on finance and insurance tasks."></div>
+          </article>
+        </div>
+        <figcaption class="figure-caption"><span class="figure-caption-title">Fig. 5. Ability by industry.</span> Each panel compares full-corpus model ability with ability re-estimated from tasks in the indicated NAICS industry.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="section related-links-section">
+  <div class="container is-max-widescreen">
+    <div class="columns is-centered">
+      <div class="column is-full-width content has-text-justified">
+        <h2 class="title is-3 has-text-centered">Related and Future Work</h2>
+        <p>Agent evaluation and capability measurement are advancing through several complementary efforts that emerged alongside this project and continue to develop. <a href="https://hal.cs.princeton.edu/">HAL</a> provides a shared harness and cost-aware leaderboard for running agent evaluations. <a href="https://epoch.ai/data/eci-documentation">Epoch AI</a>, <a href="https://metr.org/blog/2025-03-19-measuring-ai-ability-to-complete-long-tasks/">METR</a>, and <a href="https://arena.ai/">Arena AI</a> are leading independent evaluation efforts. Epoch AI measures capability across benchmarks, METR studies how reliably agents complete tasks of different lengths, and Arena AI compares model outputs through large-scale blind evaluations. At a time when AI systems are advancing rapidly and entering increasingly consequential settings, efforts such as these provide an essential empirical basis for understanding their capabilities, limitations, safety, and broader implications.</p>
+        <p>These evaluation records can also support the development of new methods. Recent efforts such as <a href="https://jevmodel.org/">Jev</a> and <a href="https://huggingface.co/Contrastive-LM/CLM-v0.1-8B">CLM-8B</a> develop learned decision models that can act as judges or verifiers. <a href="https://github.com/Contrastive-LM/CLM">CLM-8B</a> is post-trained on approximately one million agent trajectories from the <a href="https://www.agentdataprotocol.com/">Agent Data Protocol</a> dataset, together with terminal traces from Endless-Terminals and LiteCoder-Terminal-SFT. Each trajectory step pairs the agent's current context with the action it took. By releasing trajectories together with task, verifier, and result information, <span class="messier">Messier</span> can facilitate similar work while potentially providing additional context for training and evaluating learned judges.</p>
+        <p><a href="https://github.com/McGill-NLP/BRIDGE">BRIDGE</a> and <a href="https://github.com/dariakryvosheieva/agent-psychometrics">Agent Psychometrics</a> use results for individual tasks and Item Response Theory to study task difficulty and agent capability. We provide an initial analysis in this paper and explore this direction in greater depth in a follow-up paper: <a href="https://arxiv.org/pdf/2608.05797">Predicting Task Difficulty Without Rollouts</a>.</p>
+        <p>Looking ahead, it will be important to examine when a shared scale provides a good fit, whether tasks grouped by occupation or industry require separate but linked scales, and whether multidimensional or hierarchical IRT can better represent the factors that contribute to performance. Such extensions are well established in psychometrics, but remain underexplored here. The present fit estimates one ability per model after selecting its best observed scaffold within each benchmark. A complementary extension could retain model–scaffold pairs as distinct agents and model relationships among agents that share a model family, developer, or scaffold. Hierarchical IRT could borrow statistical strength across these relationships while preserving distinct agent estimates, improving estimates when observations are sparse and helping study the contributions of models, scaffolds, and their interaction.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section citation-section" id="citation">
+  <div class="container is-max-widescreen">
+    <div class="columns is-centered">
+      <div class="column is-full-width content citation-content">
+        <div class="citation-heading">
+          <h2 class="title">Citation</h2>
+        </div>
+        <div class="citation-code-wrapper">
+          <button class="copy-button" id="copy-bibtex" type="button" title="Copy BibTeX" aria-label="Copy BibTeX">
+            <span class="copy-idle" aria-hidden="true"><i class="fas fa-copy"></i></span>
+            <span class="copy-success" aria-live="polite"><i class="fas fa-check" aria-hidden="true"></i> Copied</span>
+          </button>
+          <pre class="citation-code"><code id="bibtex-code"><span class="bibtex-type">@article</span>{<span class="bibtex-key">krsteski2026messier</span>,
+  <span class="bibtex-field">title</span>={<span class="bibtex-value">Messier: A High-Resolution Corpus for Cross-Benchmark Agent Evaluation</span>},
+  <span class="bibtex-field">author</span>={<span class="bibtex-value">Krsteski, Stefan and Meyer, Charlotte and Allegre, Guillaume and O'Halloran, Tony and Sallinen, Alexandre</span>},
+  <span class="bibtex-field">journal</span>={<span class="bibtex-value">arXiv preprint arXiv:2607.25891</span>},
+  <span class="bibtex-field">year</span>={<span class="bibtex-value">2026</span>}
+}</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>Website template adapted from <a href="https://nerfies.github.io/">Nerfies</a> under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

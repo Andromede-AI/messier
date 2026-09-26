@@ -1,0 +1,49 @@
+name: Open release PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Release branch
+        required: true
+        type: string
+      tag:
+        description: Release tag
+        required: true
+        type: string
+      candidate_url:
+        description: Hugging Face candidate URL
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open:
+    name: Open release pull request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch }}
+      - name: Create or update pull request
+        env:
+          BRANCH: ${{ inputs.branch }}
+          CANDIDATE_URL: ${{ inputs.candidate_url }}
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          BODY="$(mktemp)"
+          {
+            cat docs/release_notes.md
+            printf '\n## Dataset candidate\n\n[Review the Hugging Face candidate](%s)\n' "$CANDIDATE_URL"
+          } > "$BODY"
+
+          PR_URL="$(gh pr view "$BRANCH" --json url --jq .url 2>/dev/null || true)"
+          if [[ -n "$PR_URL" ]]; then
+            gh pr edit "$BRANCH" --title "Release $TAG" --body-file "$BODY"
+          else
+            gh pr create --base main --head "$BRANCH" --title "Release $TAG" --body-file "$BODY"
+          fi

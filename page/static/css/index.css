@@ -1,0 +1,454 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+  overflow-x: hidden;
+}
+
+.navbar-start {
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.link-block a {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.messier {
+  font-variant: small-caps;
+}
+
+.publication-title,
+.publication-authors,
+.publication-venue {
+  font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+  margin-top: 0.35rem;
+}
+
+.publication-venue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  margin: 0.7rem auto 0;
+  color: #555;
+  font-weight: bold;
+}
+
+.publication-venue:hover {
+  color: #363636;
+}
+
+.venue-logo {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.evaluation-section {
+  padding-top: 0;
+}
+
+.evaluation-flow {
+  display: block;
+  width: 100%;
+  max-width: 960px;
+  margin: 1.5rem auto 0.9rem;
+}
+
+.results-section .result-group-title {
+  margin-bottom: 0.75rem;
+}
+
+.results-section .industry-title {
+  margin-top: 3.5rem;
+}
+
+.results-section .comparison-title {
+  margin-top: 3.5rem;
+}
+
+.hero.is-light.results-section a:not(.button) {
+  color: #3273dc;
+}
+
+.abstract-copy {
+  max-width: 960px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.abstract-section {
+  padding-top: 2.5rem;
+}
+
+.research-figure {
+  margin: 0;
+}
+
+.figure-caption {
+  max-width: 1120px;
+  margin: 1rem auto 0;
+  color: #666;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+.evaluation-caption {
+  max-width: 960px;
+  margin-top: 0;
+  font-family: 'Google Sans', sans-serif;
+}
+
+.figure-caption-title {
+  color: #363636;
+  font-weight: 600;
+}
+
+.composition-grid {
+  display: grid;
+  max-width: 1120px;
+  margin: 0 auto;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.composition-panel {
+  min-width: 0;
+}
+
+.composition-panel h3 {
+  margin: 0 0 0.35rem;
+  color: #363636;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.interactive-plot.composition-plot {
+  height: 220px;
+}
+
+.frontier-grid {
+  display: grid;
+  max-width: 1120px;
+  margin: 2.5rem auto 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.interactive-plot.frontier-plot {
+  height: 340px;
+}
+
+.results-section .irt-title {
+  margin-top: 4rem;
+}
+
+.irt-copy {
+  max-width: 1120px;
+  margin: 0 auto;
+  color: #666;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+.irt-copy p {
+  margin: 0;
+}
+
+.irt-copy p + p {
+  margin-top: 1rem;
+}
+
+.irt-plots-grid {
+  display: grid;
+  max-width: 880px;
+  margin: 2rem auto 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto auto auto;
+  column-gap: 3.5rem;
+  row-gap: 0;
+}
+
+.irt-plot-panel {
+  display: grid;
+  min-width: 0;
+  margin: 0;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+}
+
+.irt-figure-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: #363636;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.irt-overlap-title {
+  padding-right: 12px;
+  padding-left: 112px;
+}
+
+.irt-stat {
+  min-height: 3rem;
+  margin: 0.35rem auto 0;
+}
+
+.result-stat.irt-stat {
+  text-align: justify;
+}
+
+.interactive-plot.irt-square-plot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.result-note {
+  max-width: 1120px;
+  margin: 0 auto 2rem;
+  color: #666;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+.related-links-section .content {
+  max-width: 1120px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.result-card {
+  min-width: 0;
+  padding: 0;
+}
+
+.result-card h3 {
+  min-height: 2.6rem;
+  color: #363636;
+  font-family: 'Google Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.result-stat {
+  min-height: 1.5rem;
+  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.interactive-plot {
+  width: 100%;
+  height: 300px;
+}
+
+.citation-heading {
+  margin-bottom: 1rem;
+}
+
+.citation-content {
+  min-width: 0;
+  max-width: 1120px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.citation-heading .title {
+  margin-bottom: 0;
+}
+
+.citation-code-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.copy-button {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  display: inline-flex;
+  width: 2.25rem;
+  height: 2.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0;
+  overflow: hidden;
+  color: #444;
+  font: inherit;
+  font-size: 0.8rem;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  transition: width 160ms ease, background-color 160ms ease;
+}
+
+.copy-button:hover {
+  background: #fff;
+}
+
+.copy-button.is-copied {
+  width: 5.75rem;
+  color: #276749;
+  background: #edf7ef;
+  border-color: #9bc6a4;
+}
+
+.copy-success {
+  display: none;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.copy-button.is-copied .copy-idle {
+  display: none;
+}
+
+.copy-button.is-copied .copy-success {
+  display: inline-flex;
+}
+
+.citation-code {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding-right: 7.25rem;
+  overflow-x: auto;
+  white-space: pre;
+  border: 1px solid #d5d5d5;
+  border-radius: 6px;
+  background: #f7f7f7;
+}
+
+.citation-code code {
+  display: block;
+  width: max-content;
+  min-width: 100%;
+  white-space: pre;
+}
+
+.bibtex-type {
+  color: #9c3f54;
+}
+
+.bibtex-key,
+.bibtex-field {
+  color: #315f9e;
+}
+
+.bibtex-value {
+  color: #326b52;
+}
+
+.footer {
+  padding: 1.5rem;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: normal;
+}
+
+@media screen and (max-width: 768px) {
+  .hero-body,
+  .section {
+    padding-right: 1.25rem;
+    padding-left: 1.25rem;
+  }
+
+  .columns {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .column {
+    flex: none;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .publication-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .publication-title {
+    font-size: 2.2rem !important;
+    overflow-wrap: anywhere;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .irt-plots-grid {
+    display: block;
+  }
+
+  .irt-plot-panel {
+    grid-template-rows: 2.5rem auto auto;
+  }
+
+  .irt-plot-panel + .irt-plot-panel {
+    margin-top: 2rem;
+  }
+
+  .composition-grid,
+  .frontier-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card h3 {
+    min-height: 0;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1023px) {
+  .results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .composition-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .frontier-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="405" viewBox="35 8 910 335" role="img" aria-labelledby="title desc">
+  <title id="title">Evaluation flow</title>
+  <desc id="desc">One of several models and one of several environments are shown. A model and scaffold form an agent. The agent executes a selected task over repeated trials. Each trial is evaluated by several verifiers, whose results are combined into a trial result.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="7" markerHeight="7" refX="6.5" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 7 3.5 L 0 7 z" fill="#4f5965"/>
+    </marker>
+    <marker id="context-arrow" markerWidth="7" markerHeight="7" refX="6.5" refY="3.5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 7 3.5 L 0 7 z" fill="#5576bf"/>
+    </marker>
+    <style>
+      .sans { font-family: Arial, Helvetica, sans-serif; fill: #252a31; }
+      .math { font-family: Georgia, "Times New Roman", serif; }
+      .box { stroke: #7b8794; stroke-width: 1.25; }
+      .stack-outline { fill: #ffffff; stroke: #c4cad1; stroke-width: 1.1; }
+      .label { font-size: 15px; text-anchor: middle; dominant-baseline: middle; }
+      .small { font-size: 12px; text-anchor: middle; dominant-baseline: middle; }
+      .card { font-size: 12px; text-anchor: middle; dominant-baseline: middle; }
+      .compose { fill: none; stroke: #59636e; stroke-width: 2.2; }
+      .flow { fill: none; stroke: #4f5965; stroke-width: 2.2; marker-end: url(#arrow); }
+      .context { fill: none; stroke: #5576bf; stroke-width: 2.2; stroke-dasharray: 7 5; marker-end: url(#context-arrow); }
+    </style>
+  </defs>
+
+  <rect x="35" y="8" width="910" height="335" fill="#ffffff"/>
+
+  <!-- Environment and its two groups -->
+  <rect class="stack-outline" x="336" y="10" width="384" height="120" rx="8"/>
+  <rect class="stack-outline" x="342" y="14" width="384" height="120" rx="8"/>
+  <rect x="348" y="18" width="384" height="120" rx="8" fill="#f6f8fb" stroke="#a7b0ba" stroke-width="1.3"/>
+  <rect x="371" y="47" width="132" height="74" rx="6" fill="#ffffff" stroke="#c4cad1" stroke-width="1.1"/>
+  <rect x="558" y="47" width="151" height="74" rx="6" fill="#ffffff" stroke="#c4cad1" stroke-width="1.1"/>
+  <text class="sans" x="540" y="39" font-size="15" text-anchor="middle">Environment</text>
+  <text class="sans" x="437" y="60" font-size="12" text-anchor="middle">Tasks</text>
+  <text class="sans" x="633.5" y="60" font-size="12" text-anchor="middle">Verifiers for task 1</text>
+
+  <!-- Stacked task cards -->
+  <g class="sans">
+    <rect class="box" x="408" y="83" width="82" height="27" rx="3" fill="#e7eafa"/>
+    <text class="card" x="449" y="96.5">Task <tspan class="math" font-style="italic">K</tspan></text>
+    <rect class="box" x="400" y="75" width="82" height="27" rx="3" fill="#e7eafa"/>
+    <text class="card" x="441" y="88.5">Task <tspan class="math" font-style="italic">2</tspan></text>
+    <rect class="box" x="392" y="67" width="82" height="27" rx="3" fill="#e7eafa"/>
+    <text class="card" x="433" y="80.5">Task <tspan class="math" font-style="italic">1</tspan></text>
+  </g>
+
+  <!-- Stacked verifier cards -->
+  <g class="sans math" font-style="italic">
+    <rect class="box" x="613" y="83" width="82" height="27" rx="3" fill="#d5dcf7"/>
+    <text class="card" x="654" y="96.5"><tspan>v</tspan><tspan baseline-shift="sub" font-size="9">N</tspan></text>
+    <rect class="box" x="605" y="75" width="82" height="27" rx="3" fill="#d5dcf7"/>
+    <text class="card" x="646" y="88.5"><tspan>v</tspan><tspan baseline-shift="sub" font-size="9">2</tspan></text>
+    <rect class="box" x="597" y="67" width="82" height="27" rx="3" fill="#d5dcf7"/>
+    <text class="card" x="638" y="80.5"><tspan>v</tspan><tspan baseline-shift="sub" font-size="9">1</tspan></text>
+  </g>
+
+  <!-- Composition inputs -->
+  <g class="sans">
+    <rect class="stack-outline" x="60" y="173" width="105" height="38" rx="3"/>
+    <rect class="stack-outline" x="66" y="179" width="105" height="38" rx="3"/>
+    <rect class="box" x="72" y="185" width="105" height="38" rx="3" fill="#f1f3f5"/>
+    <text class="label" x="124.5" y="204">Model</text>
+    <rect class="stack-outline" x="60" y="255" width="105" height="38" rx="3"/>
+    <rect class="stack-outline" x="66" y="261" width="105" height="38" rx="3"/>
+    <rect class="box" x="72" y="267" width="105" height="38" rx="3" fill="#f1f3f5"/>
+    <text class="label" x="124.5" y="286">Scaffold</text>
+    <rect class="stack-outline" x="204" y="204" width="105" height="38" rx="3"/>
+    <rect class="stack-outline" x="210" y="210" width="105" height="38" rx="3"/>
+    <rect class="box" x="216" y="216" width="105" height="38" rx="3" fill="#f1f3f5"/>
+    <text class="label" x="268.5" y="235">Agent</text>
+  </g>
+
+  <!-- Evaluation flow arrows, placed behind the nodes -->
+  <path class="compose" d="M177 204 L216 235"/>
+  <path class="compose" d="M177 286 L216 235"/>
+  <path class="flow" d="M321 235 L390 176"/>
+  <path class="flow" d="M321 235 L390 235"/>
+  <path class="flow" d="M321 235 L390 306"/>
+  <path class="flow" d="M490 176 L550 176"/>
+  <path class="flow" d="M490 235 L550 235"/>
+  <path class="flow" d="M490 306 L550 306"/>
+  <path class="flow" d="M710 176 L772 176"/>
+  <path class="flow" d="M710 235 L772 235"/>
+  <path class="flow" d="M710 306 L772 306"/>
+
+  <!-- Trials -->
+  <g class="sans">
+    <rect class="box" x="390" y="157" width="100" height="38" rx="3" fill="#e7eafa"/>
+    <text class="label" x="440" y="176">Trial <tspan class="math" font-style="italic">1</tspan></text>
+    <rect class="box" x="390" y="216" width="100" height="38" rx="3" fill="#e7eafa"/>
+    <text class="label" x="440" y="235">Trial <tspan class="math" font-style="italic">2</tspan></text>
+    <rect class="box" x="390" y="287" width="100" height="38" rx="3" fill="#e7eafa"/>
+    <text class="label" x="440" y="306">Trial <tspan class="math" font-style="italic">J</tspan></text>
+  </g>
+  <g fill="#252a31">
+    <circle cx="440" cy="268" r="1.7"/><circle cx="440" cy="274" r="1.7"/><circle cx="440" cy="280" r="1.7"/>
+  </g>
+
+  <!-- Per-trial verifier results -->
+  <g class="sans">
+    <rect class="box" x="550" y="157" width="160" height="38" rx="3" fill="#d5dcf7"/>
+    <text class="small" x="630" y="169">Verifier results</text>
+    <text class="small math" x="630" y="184"><tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">11</tspan>, …, <tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">N1</tspan></text>
+    <rect class="box" x="550" y="216" width="160" height="38" rx="3" fill="#d5dcf7"/>
+    <text class="small" x="630" y="228">Verifier results</text>
+    <text class="small math" x="630" y="243"><tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">12</tspan>, …, <tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">N2</tspan></text>
+    <rect class="box" x="550" y="287" width="160" height="38" rx="3" fill="#d5dcf7"/>
+    <text class="small" x="630" y="299">Verifier results</text>
+    <text class="small math" x="630" y="314"><tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">1J</tspan>, …, <tspan font-style="italic">r</tspan><tspan baseline-shift="sub" font-size="9">NJ</tspan></text>
+  </g>
+
+  <!-- Scored results -->
+  <g class="sans">
+    <rect class="box" x="772" y="157" width="135" height="38" rx="3" fill="#c3cdf2"/>
+    <text class="label" x="839.5" y="176">Trial result <tspan class="math" font-style="italic">S</tspan><tspan class="math" baseline-shift="sub" font-size="11">1</tspan></text>
+    <rect class="box" x="772" y="216" width="135" height="38" rx="3" fill="#c3cdf2"/>
+    <text class="label" x="839.5" y="235">Trial result <tspan class="math" font-style="italic">S</tspan><tspan class="math" baseline-shift="sub" font-size="11">2</tspan></text>
+    <rect class="box" x="772" y="287" width="135" height="38" rx="3" fill="#c3cdf2"/>
+    <text class="label" x="839.5" y="306">Trial result <tspan class="math" font-style="italic">S</tspan><tspan class="math" baseline-shift="sub" font-size="11">J</tspan></text>
+  </g>
+  <g class="sans math" font-size="14" font-style="italic" text-anchor="middle">
+    <rect x="735" y="157" width="12" height="17" rx="2" fill="#ffffff"/>
+    <text x="741" y="170">f</text>
+    <rect x="735" y="216" width="12" height="17" rx="2" fill="#ffffff"/>
+    <text x="741" y="229">f</text>
+    <rect x="735" y="287" width="12" height="17" rx="2" fill="#ffffff"/>
+    <text x="741" y="300">f</text>
+  </g>
+
+  <!-- Selected task and verifier context -->
+  <path class="context" d="M433 94 L433 156"/>
+  <path class="context" d="M638 94 L638 156"/>
+</svg>
