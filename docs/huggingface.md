@@ -191,13 +191,6 @@ print(rates.head())
 ```
 
 
-Track each benchmark's best observed results by model release quarter.
-
-```bash
-uv run --group dev python analysis/frontier_progress/run.py
-# Results: analysis/outputs/frontier_progress/
-```
-
 The script downloads and verifies the frozen raw sources, rebuilds the corpus, and runs validation tests.
 
 ```bash
