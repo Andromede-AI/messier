@@ -11,7 +11,7 @@
 | Term | Meaning |
 | --- | --- |
 | Model | The underlying language model |
-| Scaffold | The system that turns model outputs into actions and parses environment observations |
+| Scaffold | The system that turns model outputs into actions and parses environment observations (sometimes called a harness)|
 | Agent | A model-scaffold pair. If a source reports a reasoning setting, such as `high`, we append it to the agent ID |
 | Environment | The system with which an agent interacts, defining the states, actions, and observations available |
 | Task | A given problem consisting of a string instruction (and an initial environment state) |
