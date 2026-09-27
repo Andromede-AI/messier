@@ -9,7 +9,7 @@ Each builder translates one pinned benchmark into task, verifier, and result row
 | `Record` | One verifier result, trial result, or source-reported summary |
 | `Trajectory` | Step-by-step interaction between the agent and the environment during the task |
 
-Below you will find an example for adding a benchmark. All data models and important fields can be found in [`models.py`](../src/messier/models.py), while more information is available in the existing builders' READMEs under [`builders/`](../src/messier/builders). Typically, there are several things to check:
+Typically, there are several things to check when adding a new source:
 
 1. **Environment**
    - What state type is it? Choose one of `none` (no state beyond the task inputs), `filesystem` (files and directories, such as a software repository), `in_memory` (program objects, such as a tool-managed database), or `live_web` (an external website or web service). Only one environment state type is stored per task for now.
@@ -42,6 +42,7 @@ Below you will find an example for adding a benchmark. All data models and impor
    - Did an intermediary collection, such as BRIDGE or Agent Psychometrics, provide the data? If so, store it in `data_provider`.
    - Is every repository commit or dataset revision pinned so the source can be fetched again?
 
+Below you will find an example for adding a benchmark. All data models and important fields can be found in [`models.py`](../src/messier/models.py), while more information is available in the existing builders' READMEs under [`builders/`](../src/messier/builders).
 
 ```python
 from ...models import (
