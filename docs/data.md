@@ -11,7 +11,7 @@
 | Term | Meaning |
 | --- | --- |
 | Model | The underlying language model |
-| Scaffold | The system that turns model outputs into actions and parses environment observations |
+| Scaffold | The system that turns model outputs into actions and parses environment observations (sometimes called a harness) |
 | Agent | A model-scaffold pair. If a source reports a reasoning setting, such as `high`, we append it to the agent ID |
 | Environment | The system with which an agent interacts, defining the states, actions, and observations available |
 | Task | A given problem consisting of a string instruction (and an initial environment state) |
@@ -37,7 +37,7 @@ The release files use the same terminology as the paper. Names inside a metadata
 | **records.jsonl** | One stored trial result, verifier result, or source summary |
 | **trajectories.jsonl** | One available step-by-step execution trajectory (agent per task) |
 | **classifications.jsonl** | One task's final SOC and NAICS labels, the labels proposed by each classification model, and adjudication details when the models disagree |
-| **task_files/** | Original files available to agents for tasks that provide them |
+| **task_files/** | Original files available to agents for tasks that provide them, sometimes omitted because their licenses do not permit redistribution |
 
 For example, a trial with three separately reported verifier results produces four records: three verifier-result rows and one trial-result row.
 

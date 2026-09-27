@@ -72,6 +72,8 @@ uv run python
 
 **Download the files.** Run this example from the repository root. It downloads all five tables from [Hugging Face](https://huggingface.co/datasets/Andromede-AI/messier/tree/main) into the folders our loaders and analyses read:
 
+> **Note:** Downloading all five tables requires more than 9 GB of disk space. The trajectories account for most of this size.
+
 ```python
 from huggingface_hub import hf_hub_download
 
@@ -117,23 +119,23 @@ This example streams rows from Hugging Face. Change the filename to stream recor
 Below we show several use cases and quick starts for using MESSIER.
 
 
-Combine all five tables into one complete dataset containing the full information.
+Collect all stored information for one task.
 
 ```python
-from collections import defaultdict
-import pandas as pd
 from messier.io import data_path, load_jsonl
 
-tables = {}
+task = next(load_jsonl(data_path("tasks.jsonl", source="local")))
+key = (task["benchmark"], task["task_id"])
+
+task_data = {}
 for name in ("tasks", "records", "verifiers", "trajectories", "classifications"):
-    rows_by_task = defaultdict(list)
-    for row in load_jsonl(data_path(f"{name}.jsonl", source="local")):
-        rows_by_task[(row["benchmark"], row["task_id"])].append(row)
+    task_data[name] = [
+        row
+        for row in load_jsonl(data_path(f"{name}.jsonl", source="local"))
+        if (row["benchmark"], row["task_id"]) == key
+    ]
 
-    tables[name] = pd.Series(rows_by_task, dtype=object)
-
-dataset = pd.DataFrame(tables).rename_axis(["benchmark", "task_id"]).reset_index()
-print(dataset.head())
+print({name: len(rows) for name, rows in task_data.items()})
 ```
 
 Compare agents within each benchmark using trials with a score.
@@ -156,12 +158,6 @@ Track each benchmark's best observed results by model release quarter.
 ```bash
 uv run --group dev python analysis/frontier_progress/run.py
 # Results: analysis/outputs/frontier_progress/
-```
-
-The script downloads and verifies the frozen raw sources, rebuilds the corpus, and runs validation tests.
-
-```bash
-bash scripts/update.sh
 ```
 
 ## License
