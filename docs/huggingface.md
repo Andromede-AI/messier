@@ -26,7 +26,7 @@ configs:
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Andromede-AI/messier/main/docs/assets/logo.png" width="220" alt="MESSIER logo">
+  <img src="https://huggingface.co/datasets/Andromede-AI/messier/resolve/main/docs/assets/logo.png" width="220" alt="MESSIER logo">
 </p>
 
 <h1 align="center">MESSIER</h1>
@@ -57,6 +57,19 @@ As agent systems and evaluations evolve, keeping track of their progress is incr
     <td align="center"><strong>118,089</strong><br>Trajectories</td>
   </tr>
 </table>
+
+## Data files
+
+The release is organized into five JSONL tables and a directory of task files:
+
+| File | One row represents |
+| --- | --- |
+| **tasks.jsonl** | One task |
+| **verifiers.jsonl** | One verifier, linked to its task |
+| **records.jsonl** | One stored trial result, verifier result, or source summary |
+| **trajectories.jsonl** | One available step-by-step execution trajectory (agent per task) |
+| **classifications.jsonl** | One task's final SOC and NAICS labels, the labels proposed by each classification model, and adjudication details when the models disagree |
+| **task_files/** | Original files available to agents for tasks that provide them, sometimes omitted because their licenses do not permit redistribution |
 
 
 ## News
