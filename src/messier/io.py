@@ -55,6 +55,7 @@ def redact_credentials(text: str) -> str:
 # local and Hugging Face paths for each release file
 HF_FILES = {
     "README.md": (HF_DATASET_CARD, "README.md"),
+    "THIRD_PARTY_NOTICES.md": (REPO_ROOT / "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_NOTICES.md"),
     "docs/assets/logo.png": (REPO_ROOT / "docs/assets/logo.png", "docs/assets/logo.png"),
     "classifications.jsonl": (CLASSIFICATIONS_PATH, "classifications.jsonl"),
     "tasks.jsonl": (TASKS_PATH, "tasks.jsonl"),

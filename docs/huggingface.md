@@ -201,7 +201,7 @@ bash scripts/update.sh
 
 MESSIER is licensed under [MIT](https://github.com/Andromede-AI/messier/blob/main/LICENSE).
 
-**Disclaimer.** MESSIER incorporates material from original benchmarks and result providers, whose ownership and intellectual property we respect. Third-party material remains subject to its original terms. We have made our best effort to identify and cite these sources in the benchmark READMEs. We welcome requests from the original authors to correct an attribution, modify included material, or remove it when needed.
+**Disclaimer.** MESSIER incorporates material from original benchmarks and result providers, whose ownership and intellectual property we respect. Third-party material remains subject to its original terms and is documented in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). We welcome requests from the original authors to correct an attribution, modify included material, or remove it when needed.
 
 ## Citation
 ```bibtex
