@@ -1,4 +1,4 @@
-## MESSIER v1.0.0
+## MESSIER v1.0.1
 
 We release the first public version of MESSIER.
 

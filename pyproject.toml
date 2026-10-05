@@ -1,6 +1,6 @@
 [project]
 name = "messier"
-version = "1.0.0"
+version = "1.0.1"
 description = "A corpus of agent evaluation records."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
