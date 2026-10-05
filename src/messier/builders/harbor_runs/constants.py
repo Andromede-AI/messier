@@ -1,7 +1,10 @@
 # map Harbor dataset slugs to MESSIER benchmark names
 SLUG_TO_NAME = {
     "adyen/dabstep":                       "dabstep",
+    "dabstep":                             "dabstep",
     "harveyai/lab":                        "harveyai-lab",
+    "medagentbench":                       "medagentbench",
+    "qcircuitbench":                       "qcircuitbench",
     "qcircuitbench/qcircuitbench":         "qcircuitbench",
     "replicationbench/replicationbench":   "replicationbench",
     "scienceagentbench/scienceagentbench": "scienceagentbench",

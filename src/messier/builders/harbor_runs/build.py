@@ -5,7 +5,7 @@ Import contributed Harbor trials and verifier results.
 import json
 from collections import Counter
 from ..benchmarks import DEFAULT_SCORING_RULES
-from ..standardize import format_agent_id, standardize_model, standardize_scaffold_name
+from ..standardize import format_agent_id, standardize_scaffold_name
 from ..dates import resolve_model_date, resolve_task_date
 from ...io import RAW
 from ...models import (
@@ -44,13 +44,12 @@ def build() -> BuildResult:
         config_path = trial_path / "config.json"
         config = json.loads(config_path.read_text())
         source_slug = config["task"]["source"]
-        source_task = config["task"]["name"]
+        source_task = utils.source_task(config)
         benchmark = SLUG_TO_NAME.get(source_slug)
         if benchmark is None:
             continue
 
-        raw_model = config["agent"]["model_name"]
-        model, reasoning_effort = standardize_model(raw_model.split("/", 1)[-1])
+        raw_model, model, reasoning_effort = utils.model_identity(config)
         scaffold = standardize_scaffold_name(config["agent"]["name"])
         agent_id = format_agent_id(model, scaffold, reasoning_effort)
         model_date = resolve_model_date(model, raw_model)
@@ -62,7 +61,7 @@ def build() -> BuildResult:
 
         result = utils.load_result(trial_path)
         task_id = utils.task_id(result, source_slug)
-        task_ref = (result.get("task_id") or {}).get("ref")
+        task_ref = utils.task_ref(config, result)
         trial_key = (benchmark, task_id, agent_id)
         trial_index = trial_indices[trial_key]
         trial_indices[trial_key] += 1
@@ -243,8 +242,7 @@ def trajectories():
 
         result = utils.load_result(trial_path)
         task_id = utils.task_id(result, source_slug)
-        raw_model = config["agent"]["model_name"]
-        model, reasoning_effort = standardize_model(raw_model.split("/", 1)[-1])
+        raw_model, model, reasoning_effort = utils.model_identity(config)
         scaffold = standardize_scaffold_name(config["agent"]["name"])
         agent_id = format_agent_id(model, scaffold, reasoning_effort)
         key = (benchmark, task_id, agent_id)
