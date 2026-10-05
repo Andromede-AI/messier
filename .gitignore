@@ -12,6 +12,7 @@ wheels/
 # local outputs
 /data/
 /analysis/outputs/
+/docs/presentations/*/local/
 
 # secrets
 .env

@@ -146,6 +146,9 @@ MODEL_ALIASES = {
 
     "qwen-qwen-3-32b":                                           "qwen-3-32b",
     "qwen-qwen-3-8b":                                            "qwen-3-8b",
+    "qwen-qwen-3-5-9b":                                          "qwen-3-5-9b",
+    "qwen-qwen-3-5-4b":                                          "qwen-3-5-4b",
+    "qwen-qwen-3-5-2b":                                          "qwen-3-5-2b",
     "qwen-qwen-3-4b-instruct-2507":                              "qwen-3-4b-instruct-2507",
     "salesforce-llama-xlam-2-70b-fc-r":                          "llama-xlam-2-70b-fc-r",
     "salesforce-llama-xlam-2-8b-fc-r":                           "llama-xlam-2-8b-fc-r",
@@ -160,6 +163,11 @@ MODEL_ALIASES = {
     "bitagent-bitagent-bounty-8b":                               "bitagent-bounty-8b",
     "team-ace-toolace-2-8b":                                     "toolace-2-8b",
     "openbmb-minicpm3-4b":                                       "minicpm3-4b",
+    "openbmb-minicpm5-2b":                                       "minicpm5-2b",
+    "open-thoughts-openthinkeragent-8b-rl":                      "openthinker-agent-8b-rl",
+    "allenai-sera-8b-ga":                                        "sera-8b-ga",
+    "ibm-granite-granite-4-2-8b":                                "granite-4-2-8b",
+    "orionllm-terminus-qwen-3-8b":                               "terminus-qwen-3-8b",
 
     # remove organization prefixes
     "meta-llama-llama-3-1-8b-instruct":                          "llama-3-1-8b-instruct",
@@ -403,6 +411,11 @@ EXTRA_MODEL_DATES = {
     "nova-pro-v1-0":                        "2024-12-03",
 
     "minicpm3-4b":                          "2024-09-05",
+    "minicpm5-2b":                          "2026-09-29",
+    "openthinker-agent-8b-rl":              "2026-06-09",
+    "sera-8b-ga":                           "2026-01-27",
+    "granite-4-2-8b":                       "2026-08-25",
+    "terminus-qwen-3-8b":                   "2026-03-06",
 
     # models from SWE-bench Verified
     "glm-4-5":                              "2025-07-28",
@@ -457,6 +470,7 @@ EXTRA_MODEL_DATES = {
     "ui-tars-1-5-7b":                       "2025-04-21",
 
     "gpt-5-5":                              "2026-04-23",
+    "gpt-5-6-luna":                         "2026-07-09",
     "gpt-5-4-mini":                         "2026-03-17",
 
     "claude-3-haiku":                       "2024-03-13",

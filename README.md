@@ -21,13 +21,13 @@ As agent systems and evaluations evolve, keeping track of their progress is incr
 <table align="center">
   <tr>
     <td align="center"><strong>31</strong><br>Benchmarks</td>
-    <td align="center"><strong>725</strong><br>Agents</td>
+    <td align="center"><strong>734</strong><br>Agents</td>
     <td align="center"><strong>11,999</strong><br>Tasks</td>
   </tr>
   <tr>
     <td align="center"><strong>72,000</strong><br>Verifiers</td>
-    <td align="center"><strong>902,338</strong><br>Records</td>
-    <td align="center"><strong>118,089</strong><br>Trajectories</td>
+    <td align="center"><strong>903,202</strong><br>Records</td>
+    <td align="center"><strong>118,701</strong><br>Trajectories</td>
   </tr>
 </table>
 
@@ -35,7 +35,7 @@ As agent systems and evaluations evolve, keeping track of their progress is incr
 ## News
 - **[26/10/2026]** 🌕 We will present MESSIER at the EMNLP 2026 Main Conference.
 - **[09/10/2026]** 🌔 We will present *Predicting Task Difficulty Without Rollouts* as a poster at the COLM 2026 Workshop on Agent Behavior (WAB).
-- **[26/09/2026]** 🌓 We release the first public version of MESSIER.
+- **[26/09/2026]** 🌓 We release the first public version of MESSIER, including 612 new evaluations across QCircuitBench, DABStep, and MedAgentBench for GPT-5.6 Luna, Qwen3.5-9B, Qwen3.5-4B, Qwen3.5-2B, MiniCPM5-2B, Terminus-Qwen3-8B, OpenThinkerAgent-8B-RL, SERA-8B-GA, and Granite-4.2-8B, using Terminus2 and OpenHands.
 
 - **[13/09/2026]** 🌒 Updated the data model to include `extra_context`, under which files available in the task are saved. We added task files from HarveyAI-Lab, GDPval, DABStep, OSWorld, and Toolathlon so the materials available to an agent can be accessed alongside each task.
 - **[05/09/2026]** 🌑 Updated MathArena to a newer pinned source revision and moved APEX to its complete three-shard release, refreshing the imported tasks, model responses, scores, and trajectories.

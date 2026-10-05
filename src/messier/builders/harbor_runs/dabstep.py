@@ -79,13 +79,14 @@ def task_definition(
     if not task_ref:
         raise ValueError(f"DABStep task {source_task!r} has no package reference")
 
-    package_path = (
-        RAW
-        / BENCH
-        / "tasks"
-        / source_task
-        / task_ref.removeprefix("sha256:")
-    )
+    package_root = RAW / BENCH / "tasks" / "adyen" / task_id
+    if task_ref.startswith("sha256:"):
+        package_path = RAW / BENCH / "tasks" / source_task / task_ref.removeprefix("sha256:")
+    else:
+        packages = [path for path in package_root.iterdir() if path.is_dir()]
+        if len(packages) != 1:
+            raise FileNotFoundError(f"expected one DABStep package for task {task_id}, found {len(packages)}")
+        package_path = packages[0]
     instruction_path = package_path / "instruction.md"
     solution_path = package_path / "solution" / "solve.sh"
     task_config_path = package_path / "task.toml"
