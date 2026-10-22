@@ -73,9 +73,9 @@ The release is organized into five JSONL tables and a directory of task files:
 
 
 ## News
-- **[05/10/2026]** 🌖 We release the first public version of MESSIER.
 - **[26/10/2026]** 🌕 We will present MESSIER at the EMNLP 2026 Main Conference.
 - **[09/10/2026]** 🌔 We will present *Predicting Task Difficulty Without Rollouts* as a poster at the COLM 2026 Workshop on Agent Behavior (WAB).
+- **[05/10/2026]** 🌖 We release the first public version of MESSIER.
 - **[26/09/2026]** 🌓 We release the first public version of MESSIER, including 612 new evaluations across QCircuitBench, DABStep, and MedAgentBench for GPT-5.6 Luna, Qwen3.5-9B, Qwen3.5-4B, Qwen3.5-2B, MiniCPM5-2B, Terminus-Qwen3-8B, OpenThinkerAgent-8B-RL, SERA-8B-GA, and Granite-4.2-8B, using Terminus2 and OpenHands.
 
 - **[13/09/2026]** 🌒 Updated the data model to include `extra_context`, under which task files are saved. We added original task files from HarveyAI-Lab, GDPval, DABStep, OSWorld, and Toolathlon so the materials available to an agent can be accessed alongside each task.
