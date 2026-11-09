@@ -39,8 +39,7 @@ def build() -> BuildResult:
     replicationbench_tasks = replicationbench.load_tasks()
     dabstep_input_files, dabstep_script_code = dabstep.prepare_files()
 
-    for verifier_path in sorted(graded_runs.rglob("verifier")):
-        trial_path = verifier_path.parent
+    for trial_path, result in utils.iter_trials(graded_runs):
         config_path = trial_path / "config.json"
         config = json.loads(config_path.read_text())
         source_slug = config["task"]["source"]
@@ -56,10 +55,6 @@ def build() -> BuildResult:
         run_id = trial_path.parent.name
         reward, reward_details = utils.read_reward(trial_path)
 
-        if reward is None:
-            continue
-
-        result = utils.load_result(trial_path)
         task_id = utils.task_id(result, source_slug)
         task_ref = utils.task_ref(config, result)
         trial_key = (benchmark, task_id, agent_id)
@@ -77,15 +72,16 @@ def build() -> BuildResult:
 
         existing_task = tasks_by_id.get((benchmark, task_id))
         if existing_task is None or (not existing_task.task_description and instruction):
-            if benchmark == harveyai.BENCH and reward_details is not None:
-                tasks_by_id[(benchmark, task_id)] = harveyai.task_definition(
-                    task_id=task_id,
-                    instruction=instruction,
-                    task_ref=task_ref,
-                    reward_details=reward_details,
-                    slug=source_slug,
-                    source_task=source_task,
-                )
+            if benchmark == harveyai.BENCH:
+                if reward_details is not None:
+                    tasks_by_id[(benchmark, task_id)] = harveyai.task_definition(
+                        task_id=task_id,
+                        instruction=instruction,
+                        task_ref=task_ref,
+                        reward_details=reward_details,
+                        slug=source_slug,
+                        source_task=source_task,
+                    )
             elif benchmark == replicationbench.BENCH:
                 tasks_by_id[(benchmark, task_id)] = replicationbench.task_definition(
                     task_id=task_id,
@@ -168,8 +164,10 @@ def build() -> BuildResult:
             "n_input_tokens": agent_result.get("n_input_tokens"),
             "n_output_tokens": agent_result.get("n_output_tokens"),
             "n_cache_tokens": agent_result.get("n_cache_tokens"),
+            **utils.artifact_metadata(trial_path),
+            **utils.error_metadata(trial_path, result, reward),
         }
-        if benchmark == "qcircuitbench":
+        if benchmark == "qcircuitbench" and reward is not None:
             records.append(
                 Record(
                     benchmark=benchmark,
@@ -197,7 +195,11 @@ def build() -> BuildResult:
                 agent_scaffold=scaffold,
                 model_date=model_date,
                 trial=trial_index,
-                result=1 if reward >= 1.0 else 0,
+                result=(
+                    None
+                    if reward is None or metadata.get("error_type")
+                    else int(reward >= 1.0)
+                ),
                 metadata=metadata,
                 source_platform=SourcePlatform.HUGGINGFACE,
             )
@@ -220,6 +222,14 @@ def build() -> BuildResult:
                 verifiers_by_id.setdefault((benchmark, verifier.verifier_id), verifier)
                 records.append(verifier_record)
 
+    missing_tasks = {
+        (record.benchmark, record.task_id)
+        for record in records
+        if (record.benchmark, record.task_id) not in tasks_by_id
+    }
+    if missing_tasks:
+        raise ValueError(f"Harbor records reference missing tasks: {sorted(missing_tasks)[:3]}")
+
     return list(tasks_by_id.values()), list(verifiers_by_id.values()), records
 
 
@@ -227,8 +237,7 @@ def trajectories():
     graded_runs = RAW / "harbor_runs" / "graded"
     trial_indices = Counter()
 
-    for verifier_path in sorted(graded_runs.rglob("verifier")):
-        trial_path = verifier_path.parent
+    for trial_path, result in utils.iter_trials(graded_runs):
         config_path = trial_path / "config.json"
         config = json.loads(config_path.read_text())
         source_slug = config["task"]["source"]
@@ -237,10 +246,7 @@ def trajectories():
             continue
 
         reward, _ = utils.read_reward(trial_path)
-        if reward is None:
-            continue
 
-        result = utils.load_result(trial_path)
         task_id = utils.task_id(result, source_slug)
         raw_model, model, reasoning_effort = utils.model_identity(config)
         scaffold = standardize_scaffold_name(config["agent"]["name"])
