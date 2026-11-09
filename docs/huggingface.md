@@ -53,8 +53,8 @@ As agent systems and evaluations evolve, keeping track of their progress is incr
   </tr>
   <tr>
     <td align="center"><strong>72,000</strong><br>Verifiers</td>
-    <td align="center"><strong>903,202</strong><br>Records</td>
-    <td align="center"><strong>118,701</strong><br>Trajectories</td>
+    <td align="center"><strong>904,051</strong><br>Records</td>
+    <td align="center"><strong>119,482</strong><br>Trajectories</td>
   </tr>
 </table>
 
@@ -73,6 +73,7 @@ The release is organized into five JSONL tables and a directory of task files:
 
 
 ## News
+- **[09/11/2026]** 🌗 This release corrects the treatment of non-scorable attempts in Harbor evaluations.
 - **[05/10/2026]** 🌖 We release the first public version of MESSIER.
 - **[26/10/2026]** 🌕 We will present MESSIER at the EMNLP 2026 Main Conference.
 - **[09/10/2026]** 🌔 We will present *Predicting Task Difficulty Without Rollouts* as a poster at the COLM 2026 Workshop on Agent Behavior (WAB).
