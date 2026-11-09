@@ -13,6 +13,8 @@ MESSIER includes evaluations collected through [Harbor](https://harborframework.
 
 The shared DABStep data and scorer are included under `task_files/dabstep/`, and each task contains its expected answer. Original HarveyAI-Lab input files are included under `task_files/harveyai-lab/`. ReplicationBench includes the paper and task context available inside each environment, together with the source dataset information. Agent-visible files are linked from each task's `extra_context`. ScienceAgentBench instructions and results are retained, while its input files, reference outputs, oracle programs, evaluator scripts, and trajectories are not redistributed. The complete environment remains available through the [official benchmark](https://github.com/OSU-NLP-Group/ScienceAgentBench#benchmark-access).
 
+Attempts without a verifier reward are retained with `result=None`. Transient provider failures are also non-scorable when they prevent the requested output, as are environment and evaluator failures. A provider failure after a complete output and an agent timeout with a completed verifier result remain scored. Record metadata preserves Harbor's exception type and the number of expected and successfully collected output artifacts.
+
 The following examples show selected fields from the same tasks and results used in the interaction examples below. Long task descriptions are shortened.
 
 ### DABStep example

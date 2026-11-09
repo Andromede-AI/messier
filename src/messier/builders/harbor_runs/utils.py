@@ -1,6 +1,30 @@
 import json
 from pathlib import Path
+from typing import Iterator
 from ..standardize import standardize_model
+
+
+PROVIDER_ERROR_MARKERS = (
+    "APITimeoutError",
+    "BadGatewayError",
+    "LLMTimeoutError",
+    "RateLimitError",
+    "429 Too Many Requests",
+    "502 Bad Gateway",
+)
+PROVIDER_ERROR_LOG_TAIL = 10_000
+
+
+def iter_trials(root: Path) -> Iterator[tuple[Path, dict]]:
+    """Yield trial directories and results, excluding Harbor's run summaries."""
+    for result_path in sorted(root.rglob("result.json")):
+        trial = result_path.parent
+        if not (trial / "config.json").exists():
+            continue
+
+        result = json.loads(result_path.read_text())
+        if result.get("task_name"):
+            yield trial, result
 
 
 def read_reward(trial: Path) -> tuple[float | None, dict | None]:
@@ -30,8 +54,55 @@ def read_reward(trial: Path) -> tuple[float | None, dict | None]:
     return None, details
 
 
-def load_result(trial: Path) -> dict:
-    return json.loads((trial / "result.json").read_text())
+def error_metadata(trial: Path, result: dict, reward: float | None) -> dict:
+    """Return normalized error fields without discarding Harbor's source status."""
+    exception = result.get("exception_info") or {}
+    exception_type = exception.get("exception_type")
+    if not exception_type:
+        return {"error_type": "missing_score"} if reward is None else {}
+
+    metadata = {"source_exception_type": exception_type}
+    message = exception.get("exception_message") or ""
+    if exception_type == "NonZeroAgentExitCodeError":
+        log_path = trial / "agent" / "openhands_sdk.txt"
+        if log_path.exists():
+            message += log_path.read_text(errors="replace")[-PROVIDER_ERROR_LOG_TAIL:]
+        if any(marker in message for marker in PROVIDER_ERROR_MARKERS):
+            artifacts = artifact_metadata(trial)
+            complete_output = artifacts.get("n_expected_artifacts", 0) > 0 and (
+                artifacts["n_artifacts"] == artifacts["n_expected_artifacts"]
+            )
+            if not complete_output:
+                metadata["error_type"] = "infrastructure_error"
+            return metadata
+
+    error_type = {
+        "NetworkConnectionError": "infrastructure_error",
+        "AgentSetupTimeoutError": "environment_error",
+        "RewardFileNotFoundError": "evaluator_error",
+        "VerifierTimeoutError": "evaluator_error",
+        "FilesystemExecutionError": "environment_error",
+        "CancelledError": "unknown_error",
+    }.get(exception_type)
+    if error_type:
+        metadata["error_type"] = error_type
+    elif reward is None:
+        metadata["error_type"] = "missing_score"
+    return metadata
+
+
+def artifact_metadata(trial: Path) -> dict:
+    """Summarize the files Harbor attempted to collect from the environment."""
+    manifest_path = trial / "artifacts" / "manifest.json"
+    if not manifest_path.exists():
+        return {}
+
+    manifest = json.loads(manifest_path.read_text())
+    files = [entry for entry in manifest if entry.get("type") == "file"]
+    return {
+        "n_expected_artifacts": len(files),
+        "n_artifacts": sum(entry.get("status") == "ok" for entry in files),
+    }
 
 
 def model_identity(config: dict) -> tuple[str, str, str | None]:
