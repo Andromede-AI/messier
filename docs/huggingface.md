@@ -1,28 +1,43 @@
 ---
 pretty_name: MESSIER
 license: other
+size_categories:
+- 100K<n<1M
+tags:
+- agent
+- agent-traces
+- ai-agents
+- agent-evaluation
+- agent-trajectories
+- benchmark
+- evaluation
+- format:agent-traces
+- llm-evaluation
+- tool-use
+- verifiers
+- traces
 configs:
 - config_name: records
   default: true
   data_files:
   - split: full
-    path: records.jsonl
+    path: viewer/records.parquet
 - config_name: tasks
   data_files:
   - split: full
-    path: tasks.jsonl
+    path: viewer/tasks.parquet
 - config_name: verifiers
   data_files:
   - split: full
-    path: verifiers.jsonl
+    path: viewer/verifiers.parquet
 - config_name: trajectories
   data_files:
   - split: full
-    path: trajectories.jsonl
+    path: viewer/trajectories.parquet
 - config_name: classifications
   data_files:
   - split: full
-    path: classifications.jsonl
+    path: viewer/classifications.parquet
 ---
 
 <p align="center">
