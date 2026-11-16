@@ -14,6 +14,7 @@ from huggingface_hub import (
     HfApi,
     hf_hub_download,
 )
+from .viewer import export_viewer_files
 
 # local build data stays under the ignored data directory
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -30,6 +31,7 @@ VERIFIERS_PATH = PROCESSED / "verifiers.jsonl"
 RECORDS_PATH = PROCESSED / "records.jsonl"
 TRAJECTORIES_PATH = PROCESSED / "trajectories.jsonl"
 TASK_FILES_PATH = PROCESSED / "task_files"
+VIEWER_PATH = DATA / "viewer"
 HF_REPO = "Andromede-AI/messier"
 HF_DATASET_CARD = REPO_ROOT / "docs" / "huggingface.md"
 CREDENTIAL_PREFIXES = ("hf_", "sk-", "ghp_", "github_pat_", "AKIA", "AIza", "xox")
@@ -62,6 +64,10 @@ HF_FILES = {
     "verifiers.jsonl": (VERIFIERS_PATH, "verifiers.jsonl"),
     "records.jsonl": (RECORDS_PATH, "records.jsonl"),
     "trajectories.jsonl": (TRAJECTORIES_PATH, "trajectories.jsonl"),
+}
+HF_VIEWER_FILES = {
+    VIEWER_PATH / f"{name}.parquet": f"viewer/{name}.parquet"
+    for name in ("classifications", "records", "tasks", "trajectories", "verifiers")
 }
 
 
@@ -132,6 +138,17 @@ def push_to_hf(
     if missing:
         raise FileNotFoundError(f"release files are missing: {missing}")
 
+    export_viewer_files(
+        {
+            "classifications": CLASSIFICATIONS_PATH,
+            "records": RECORDS_PATH,
+            "tasks": TASKS_PATH,
+            "trajectories": TRAJECTORIES_PATH,
+            "verifiers": VERIFIERS_PATH,
+        },
+        VIEWER_PATH,
+    )
+
     from dotenv import load_dotenv
     load_dotenv(REPO_ROOT / ".env")
     token = os.environ.get("HF_TOKEN")
@@ -145,6 +162,12 @@ def push_to_hf(
         huggingface_path: local_path
         for local_path, huggingface_path in HF_FILES.values()
     }
+    local_files.update(
+        {
+            huggingface_path: local_path
+            for local_path, huggingface_path in HF_VIEWER_FILES.items()
+        }
+    )
     local_files.update(
         {
             path.relative_to(PROCESSED).as_posix(): path
