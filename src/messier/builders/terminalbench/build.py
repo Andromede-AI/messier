@@ -63,15 +63,14 @@ def read_yoonholee_trials(paths: list[Path], task_ids: set[str]) -> pd.DataFrame
         ignore_index=True,
     )
     frame = frame[frame["task_name"].isin(task_ids)]
-    named = frame["trial_name"].fillna("").ne("")
-    identified = frame["trial_id"].fillna("").ne("")
-    # Drop only ID-less copies of an identified execution, not distinct reruns.
-    matched = pd.MultiIndex.from_frame(frame[execution_key]).isin(
-        pd.MultiIndex.from_frame(frame.loc[named & identified, execution_key])
-    )
-    return frame.loc[~(named & ~identified & matched)].sort_values(
-        ["task_name", "model", "agent", "started_at", "trial_id"]
-    )
+    has_name = frame["trial_name"].fillna("").ne("")
+    has_id = frame["trial_id"].fillna("").ne("")
+    executions = pd.MultiIndex.from_frame(frame[execution_key])
+    known_executions = executions[has_name & has_id]
+    duplicates = has_name & ~has_id & executions.isin(known_executions)
+
+    frame = frame.loc[~duplicates]
+    return frame.sort_values(["task_name", "model", "agent", "started_at", "trial_id"])
 
 
 def build() -> BuildResult:
