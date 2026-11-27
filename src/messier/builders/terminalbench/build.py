@@ -2,6 +2,7 @@
 Import TerminalBench tasks and results.
 """
 
+import json
 import re
 from collections import Counter
 from itertools import count
@@ -23,6 +24,7 @@ from ...models import (
     EnvironmentStateType,
     HumanEffort,
     Record,
+    RecordType,
     Task,
     Trajectory,
     VerifierMode,
@@ -166,17 +168,18 @@ def build() -> BuildResult:
     records = []
     trial_indices = Counter()
 
+    summary_threshold = json.loads((psychometrics_root / "meta.json").read_text())["threshold"]
     for row in load_jsonl(psychometrics_root / "responses.jsonl"):
         model, reasoning_effort = standardize_model(row.get("model"))
         scaffold = standardize_scaffold_name(row.get("agent"))
         model_date = None
         if model != "multiple":
             model_date = resolve_model_date(model, row.get("model")) or to_iso_date(row.get("date"))
+        elif "," in row["subject_id"]:
+            scaffold = row["subject_id"].replace("_", "-")
         agent_id = format_agent_id(model, scaffold, reasoning_effort)
 
         for task_id, result in row["responses"].items():
-            key = (agent_id, task_id)
-            trial = trial_indices[key]
             records.append(
                 Record(
                     benchmark="terminalbench",
@@ -186,10 +189,13 @@ def build() -> BuildResult:
                     model_reasoning_effort=reasoning_effort,
                     agent_scaffold=scaffold,
                     model_date=model_date,
-                    trial=trial,
+                    trial=None,
+                    record_type=RecordType.SOURCE_SUMMARY,
                     result=int(result),
                     metadata={
                         "raw_source": "agent_psychometrics",
+                        "subject_id": row["subject_id"],
+                        "summary_threshold": summary_threshold,
                         "accuracy_headline": row.get("accuracy"),
                         "rank": row.get("rank"),
                     },
@@ -197,7 +203,6 @@ def build() -> BuildResult:
                     data_provider=DataProvider.AGENT_PSYCHOMETRICS,
                 )
             )
-            trial_indices[key] += 1
 
     trajectory_root = RAW / "yoonholee_terminalbench"
     trajectory_paths = sorted(trajectory_root.glob("*.parquet"))
@@ -253,12 +258,6 @@ def trajectories():
     psychometrics_root = RAW / "agent_psychometrics" / "terminalbench"
     task_ids = {row["task_id"] for row in load_jsonl(psychometrics_root / "tasks.jsonl")}
     trial_indices = Counter()
-    for row in load_jsonl(psychometrics_root / "responses.jsonl"):
-        model, reasoning_effort = standardize_model(row.get("model"))
-        scaffold = standardize_scaffold_name(row.get("agent"))
-        agent_id = format_agent_id(model, scaffold, reasoning_effort)
-        for task_id in row["responses"]:
-            trial_indices[(agent_id, task_id)] += 1
 
     root = RAW / "yoonholee_terminalbench"
     paths = sorted(root.glob("*.parquet"))

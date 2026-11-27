@@ -11,7 +11,7 @@ from ..benchmarks import REPO_DESCRIPTIONS
 from ..standardize import format_agent_id, standardize_model, standardize_scaffold_name
 from ..dates import resolve_model_date, resolve_task_date
 from ..swebench_verified.utils import devin_records, parse_subject_id
-from ...io import RAW
+from ...io import RAW, load_jsonl
 from ...models import (
     ActionSpaceType,
     BuildResult,
@@ -123,6 +123,18 @@ def build() -> BuildResult:
     public = attempts["model_id"].str.startswith("public_swebench/", na=False)
     repeated_subset = public & ~attempts["run_id"].str.startswith("public_swebench:test:", na=False)
     attempts = attempts[~repeated_subset & attempts["success"].notna()]
+
+    verified_responses = RAW / "agent_psychometrics" / "swebench_verified" / "responses.jsonl"
+    if verified_responses.exists():
+        # Keep the Verified grade when the same public submission also appears in test.
+        verified_submission_ids = {
+            f"public_swebench:test:{row['subject_id']}:{task_id}:attempt0"
+            for row in load_jsonl(verified_responses)
+            for task_id in row["responses"]
+            if benchmark_by_task.get(task_id) == VERIFIED_BENCHMARK
+        }
+        attempts = attempts[~attempts["run_id"].isin(verified_submission_ids)]
+
     identity_cache: dict[tuple[str, str | None], dict] = {}
     for row in attempts.itertuples(index=False):
         benchmark = benchmark_by_task.get(row.task_id)
