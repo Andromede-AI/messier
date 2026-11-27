@@ -3,8 +3,10 @@ Import TerminalBench tasks and results.
 """
 
 import re
-from collections import Counter, defaultdict, deque
+from collections import Counter
+from itertools import count
 from math import sqrt
+from pathlib import Path
 import pandas as pd
 import pyarrow.parquet as pq
 import yaml
@@ -48,6 +50,28 @@ def standardize_agent(raw_model: str, raw_scaffold: str):
     agent_id = format_agent_id(model, scaffold, reasoning_effort)
     model_date = resolve_model_date(model, raw_model)
     return model, reasoning_effort, scaffold, agent_id, model_date
+
+
+def read_yoonholee_trials(paths: list[Path], task_ids: set[str]) -> pd.DataFrame:
+    execution_key = [
+        "task_name", "agent", "model", "trial_name", "reward",
+        "duration_seconds", "input_tokens", "output_tokens",
+    ]
+    columns = [*execution_key, "trial_id", "started_at", "cache_tokens", "cost_cents"]
+    frame = pd.concat(
+        [pd.read_parquet(path, columns=columns) for path in paths],
+        ignore_index=True,
+    )
+    frame = frame[frame["task_name"].isin(task_ids)]
+    named = frame["trial_name"].fillna("").ne("")
+    identified = frame["trial_id"].fillna("").ne("")
+    # Drop only ID-less copies of an identified execution, not distinct reruns.
+    matched = pd.MultiIndex.from_frame(frame[execution_key]).isin(
+        pd.MultiIndex.from_frame(frame.loc[named & identified, execution_key])
+    )
+    return frame.loc[~(named & ~identified & matched)].sort_values(
+        ["task_name", "model", "agent", "started_at", "trial_id"]
+    )
 
 
 def build() -> BuildResult:
@@ -180,28 +204,7 @@ def build() -> BuildResult:
     trajectory_paths = sorted(trajectory_root.glob("*.parquet"))
 
     if trajectory_paths:
-        columns = [
-            "task_name",
-            "agent",
-            "model",
-            "reward",
-            "duration_seconds",
-            "input_tokens",
-            "output_tokens",
-            "cache_tokens",
-            "cost_cents",
-            "trial_name",
-            "trial_id",
-            "started_at",
-        ]
-        frame = pd.concat(
-            [pd.read_parquet(path, columns=columns) for path in trajectory_paths],
-            ignore_index=True,
-        )
-        frame = frame[frame["task_name"].isin({task.task_id for task in tasks})]
-        frame = frame.sort_values(
-            ["task_name", "model", "agent", "started_at", "trial_id"]
-        )
+        frame = read_yoonholee_trials(trajectory_paths, {task.task_id for task in tasks})
         for row in frame.itertuples(index=False):
             model, reasoning_effort, scaffold, agent_id, model_date = standardize_agent(row.model, row.agent)
             key = (agent_id, row.task_name)
@@ -260,36 +263,24 @@ def trajectories():
 
     root = RAW / "yoonholee_terminalbench"
     paths = sorted(root.glob("*.parquet"))
-    columns = ["task_name", "agent", "model", "trial_id", "started_at"]
-    frame = pd.concat([pd.read_parquet(path, columns=columns) for path in paths], ignore_index=True,)
-    frame = frame[frame["task_name"].isin(task_ids)]
-    frame = frame.sort_values(["task_name", "model", "agent", "started_at", "trial_id"])
+    frame = read_yoonholee_trials(paths, task_ids)
 
-    trials_by_source = defaultdict(deque)
-    for row in frame.itertuples(index=False):
-        model, _, _, agent_id, _ = standardize_agent(row.model, row.agent)
+    # Keep the original row positions so skipped copies cannot shift trace joins.
+    trials_by_row = {}
+    for row in frame.itertuples():
+        _, _, _, agent_id, _ = standardize_agent(row.model, row.agent)
         key = (agent_id, row.task_name)
-        source_key = (
-            row.task_name,
-            row.agent,
-            row.model,
-            row.trial_id,
-            row.started_at,
-        )
-        trials_by_source[source_key].append(trial_indices[key])
+        trials_by_row[row.Index] = trial_indices[key]
         trial_indices[key] += 1
 
+    row_indices = count()
+    columns = ["task_name", "agent", "model", "trial_id", "started_at", "steps"]
     for path in paths:
-        batches = pq.ParquetFile(path).iter_batches(columns=[*columns, "steps"], batch_size=256)
+        batches = pq.ParquetFile(path).iter_batches(columns=columns, batch_size=256)
         for batch in batches:
             for row in batch.to_pylist():
-                source_key = tuple(row[column] for column in columns)
-                source_trials = trials_by_source.get(source_key)
-                if not source_trials:
-                    continue
-
-                trial = source_trials.popleft()
-                if row["steps"] in {None, "", "null", "[]"}:
+                trial = trials_by_row.get(next(row_indices))
+                if trial is None or row["steps"] in {None, "", "null", "[]"}:
                     continue
 
                 model, reasoning_effort, scaffold, agent_id, model_date = standardize_agent(row["model"], row["agent"])
