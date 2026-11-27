@@ -80,6 +80,7 @@ MODEL_ALIASES = {
     "kimi-k2-instruct":                                          "kimi-k2",
     "kimi-k2-0905-preview":                                      "kimi-k2-2025-09-05",
     "kimi-k2-0905":                                              "kimi-k2-2025-09-05",
+    "kimi-k2-instruct-0905":                                     "kimi-k2-2025-09-05",
     "moonshotai-kimi-k2-thinking-turbo":                         "kimi-k2-thinking",
 
     "open-mistral-nemo-2407":                                    "mistral-nemo",
@@ -140,6 +141,7 @@ MODEL_ALIASES = {
     "openai-gpt-5-1":                                            "gpt-5-1",
     "xai-grok-4":                                                "grok-4",
     "zai-glm-4-6":                                               "glm-4-6",
+    "glm-4p6":                                                  "glm-4-6",
     "minimax-minimax-m2":                                        "minimax-m2",
 
     "gemini-2-5-pro-(05-06)":                                    "gemini-2-5-pro-preview-2025-05-06",
@@ -534,10 +536,8 @@ EXTRA_MODEL_DATES = {
     "speakleash-bielik-11b-v2-3-instruct":  "2024-11-08",
     "google-computer-use-09-2025":          "2025-09-09",
     "kimi-k2-2025-09-05":                   "2025-09-05",
-    "kimi-k2-instruct-0905":                "2025-09-05",
     "kimi":                                 "2025-07-11",
     "k2-think":                             "2025-09-04",
-    "glm-4p6":                              "2025-09-30",
     "glm-5-think":                          "2026-02-11",
     "qed-nano":                             "2025-09-01",
     "sonnet-v1":                            "2024-06-20",

@@ -2,7 +2,7 @@
 
 [TerminalBench](https://github.com/laude-institute/terminal-bench) evaluates agents on tasks performed through a command-line interface. Each task provides an instruction and a Linux environment containing the files, software, and services needed to complete it. Tasks include software engineering, system administration, security, scientific computing, and machine learning.
 
-The agent works through shell commands. After the trial, a task-specific test script examines the resulting files, program behavior, or service state and returns a binary result. MESSIER imports task definitions and results from [Agent Psychometrics](https://github.com/dariakryvosheieva/agent-psychometrics), together with additional public results and trajectories from [TerminalBench Trajectories](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories).
+The agent works through shell commands. After the trial, a task-specific test script examines the resulting files, program behavior, or service state and returns a binary result. MESSIER imports task definitions and leaderboard summaries from [Agent Psychometrics](https://github.com/dariakryvosheieva/agent-psychometrics). These summaries record whether at least one attempt passed. Individual trial results and trajectories come from [TerminalBench Trajectories](https://huggingface.co/datasets/yoonholee/terminalbench-trajectories).
 
 | | TerminalBench |
 | --- | --- |
